@@ -64,11 +64,11 @@ class RegistrationTestCase(TestCase):
         response = self.client.post(
             reverse("users:register"),
             data={
-                "username": "jakhongir",
-                "first_name": "Jakhongir",
-                "last_name": "Rakhmonov",
-                "email": "jrahmonov2@gmail.com",
-                "password": "somepassword"
+                "username": "karaxanli",
+                "first_name": "Polat",
+                "last_name": "Alemdar",
+                "email": "polat_alemdar@gmail.com",
+                "password": "efe_karaxanli"
             }
         )
 
