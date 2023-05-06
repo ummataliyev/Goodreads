@@ -2,7 +2,6 @@ from django.views import View
 from django.shortcuts import render
 from django.contrib.auth import login
 from django.shortcuts import redirect
-from users.forms import UserLoginForm
 from users.forms import UserCreateForm
 from django.contrib.auth.forms import AuthenticationForm
 
@@ -33,7 +32,7 @@ class RegisterView(View):
 
 class LoginView(View):
     def get(self, request):
-        login_form = UserLoginForm()
+        login_form = AuthenticationForm()
 
         return render(request, "users/login.html", {"login_form": login_form})
 
@@ -45,5 +44,6 @@ class LoginView(View):
             login(request, user)
 
             return redirect("landing_page")
+
         else:
             return render(request, "users/login.html", {"login_form": login_form}) # noqa
