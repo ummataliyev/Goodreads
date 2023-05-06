@@ -8,13 +8,13 @@
 
 <body>
     <h1>Register Page</h1>
+    <p>
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Submit</button>
+    </form>
+    </p>
 </body>
-<form method="post" action="{% url 'users:register' %}">
-    {% csrf_token %}
-
-    {{ form.as_p }}
-
-    <button type="submit">Submit</button>
-</form>
 
 </html>

@@ -4,6 +4,7 @@ from django.shortcuts import redirect
 from users.forms import UserLoginForm
 from users.forms import UserCreateForm
 from django.contrib.auth.models import User
+from django.contrib.auth.forms import AuthenticationForm
 
 
 class RegisterView(View):
@@ -16,29 +17,23 @@ class RegisterView(View):
         return render(request, "users/register.html", context=context)
 
     def post(self, request):
-        username = request.POST['username']
-        first_name = request.POST['first_name']
-        last_name = request.POST['last_name']
-        email = request.POST['email']
-        password = request.POST['password']
+        create_form = UserCreateForm(request.POST)
 
-        user = User.objects.create(
-            username=username,
-            first_name=first_name,
-            last_name=last_name,
-            email=email,
-            )
-
-        user.set_password(password)
-        user.save()
-
-        # create user account
-        return redirect('users:login')
+        if create_form.is_valid():
+            user = create_form.save()
+            user.set_password(create_form.cleaned_data['password'])
+            user.save()
+            return redirect('users:login')
+        else:
+            context = {
+                "form": create_form
+            }
+            return render(request, "users/register.html", context)
 
 
 class LoginView(View):
     def get(self, request):
-        login_form = UserLoginForm()
+        login_form = AuthenticationForm(data=request.POST)
 
         return render(request, "users/login.html", {"login_form": login_form})
 
