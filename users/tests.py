@@ -1,4 +1,5 @@
 from django.urls import reverse
+from django.http import response
 from django.test import TestCase
 from django.contrib.auth.models import User
 
@@ -12,7 +13,7 @@ class RegistrationView(TestCase):
                 "first_name": "Umidjon",
                 "last_name": "Ummataliyev",
                 "email": "djohn_ummataliyev@gmail.com",
-                "password": "somepassword"
+                "password": "sapiens"
                 }
             )
 
@@ -21,8 +22,8 @@ class RegistrationView(TestCase):
         self.assertEqual(user.first_name, "Umidjon")
         self.assertEqual(user.last_name, "Ummataliyev")
         self.assertEqual(user.email, "djohn_ummataliyev@gmail.com")
-        self.assertNotEqual(user.password, "somepassword")
-        self.assertTrue(user.check_password("somepassword"))
+        self.assertNotEqual(user.password, "sapiens")
+        self.assertTrue(user.check_password("sapiens"))
 
     def test_required_fields(self):
         self.client.post(
@@ -36,3 +37,4 @@ class RegistrationView(TestCase):
         user_count = User.objects.count()
 
         self.assertEqual(user_count, 0)
+        self.assertFormError(response, "form", "username", "This field is required.") # noqa
