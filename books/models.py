@@ -6,7 +6,7 @@ from django.core.validators import MaxValueValidator
 
 class Book(models.Model):
     title = models.CharField(max_length=200)
-    description = models.TextField(max_length=200)
+    description = models.TextField(max_length=250)
     isbn = models.CharField(max_length=17)
 
     def __str__(self):
