@@ -1,6 +1,8 @@
 from django.urls import reverse
 from django.test import TestCase
 from users.models import CustomUser
+from django.contrib.auth import get_user
+from django.contrib.auth.models import User
 
 
 class RegistrationTestCase(TestCase):
@@ -75,3 +77,22 @@ class RegistrationTestCase(TestCase):
         user_count = CustomUser.objects.count()
         self.assertEqual(user_count, 1)
         self.assertFormError(response, "form", "username", "A user with that username already exists.") # noqa
+
+
+class LoginTestCase(TestCase):
+    def test_successful_login(self):
+        db_user = User.objects.create(username='karaxanli', first_name="Polat")
+        db_user.set_password("efe_karaxanli")
+        db_user.save()
+
+        self.client.post(
+            reverse("user:login"),
+            data={
+                "username": "karaxanli",
+                "password": "efe_karaxanli"
+            }
+        )
+
+        user = get_user(self.client)
+
+        self.assertTrue(user.is_authenticated)
