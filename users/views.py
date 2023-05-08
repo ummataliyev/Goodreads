@@ -4,6 +4,7 @@ from django.contrib.auth import login
 from django.shortcuts import redirect
 from users.forms import UserCreateForm
 from django.contrib.auth.forms import AuthenticationForm
+from django.contrib.auth.mixins import LoginRequiredMixin
 
 
 class RegisterView(View):
@@ -49,8 +50,6 @@ class LoginView(View):
             return render(request, "users/login.html", {"login_form": login_form}) # noqa
 
 
-class ProfileView(View):
+class ProfileView(LoginRequiredMixin, View):
     def get(self, request):
-        if not request.user.is_authenticated:
-            return redirect("user:login")
         return render(request, "users/profile.html", {"user": request.user})
