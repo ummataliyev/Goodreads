@@ -7,9 +7,8 @@
 </head>
 
 <body>
-    <h1>
-        Books
-    </h1>
+    <h1>Books</h1>
+    {% if books %}
     <ul>
         {% for book in books %}
         <li>
@@ -18,6 +17,9 @@
         <br>
         {% endfor %}
     </ul>
+    {% else %}
+    Not found!
+    {% endif %}
 </body>
 
 </html>
