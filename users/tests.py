@@ -118,7 +118,7 @@ class ProfileTestCase(TestCase):
         response = self.client.get(reverse("user:profile"))
 
         self.assertEqual(response.status_code, 302)
-        self.assertEqual(response.url, reverse("users:login"))
+        self.assertEqual(response.url, reverse("users:login") + "?next=/users/profile/") # noqa
 
     def test_profile_detail(self):
         user = User.objects.create(
