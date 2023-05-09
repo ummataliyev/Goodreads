@@ -1,30 +1,20 @@
-<!DOCTYPE html>
-<html lang="en">
+{% extends "base.html" %}
 
-<head>
-    <meta charset="UTF-8">
-    <title>Books Page</title>
-</head>
+{% block title %}Books Page{% endblock %}
 
-<body>
-    {% if messages %}
-        {% for message in messages %}
-            <span class="{{ message.tags }}">{{ message }}</span>
-        {% endfor %}
-    {% endif %}
-    <h1>Books</h1>
-    {% if books %}
-    <ul>
-        {% for book in books %}
-        <li>
-            <a href="{% url 'books:detail' book.id %}">{{ book.title }}</a>
-        </li>
-        <br>
-        {% endfor %}
-    </ul>
-    {% else %}
-    Not found!
-    {% endif %}
-</body>
+{% block content %}
+<h1>Books</h1>
 
-</html>
+{% if books %}
+<ul>
+    {% for book in books %}
+    <li>
+        <a href="{% url 'books:detail' book.id %}">{{ book.title }}</a>
+    </li>
+    <br>
+    {% endfor %}
+</ul>
+{% else %}
+No books found!
+{% endif %}
+{% endblock %}

@@ -1,19 +1,12 @@
-<!DOCTYPE html>
-<html lang="en">
+{% extends "base.html" %}
 
-<head>
-    <meta charset="UTF-8">
-    <title>Profile Page</title>
-</head>
+{% block title %}Profile Page{% endblock %}
 
-<body>
-    <h1>
-        Profile Page
-    </h1>
-    <p>Username {{ user.username }}</p>
-    <p>First Name {{ user.first_name }}</p>
-    <p>Last Name {{ user.last_name }}</p>
-    <p>Email {{ user.email }}</p>
-</body>
+{% block content %}
+<h1>Profile Page</h1>
 
-</html>
+<p>Username: {{ user.username }}</p>
+<p>First Name: {{ user.first_name }}</p>
+<p>Last Name: {{ user.last_name }}</p>
+<p>Email: {{ user.email }}</p>
+{% endblock %}
