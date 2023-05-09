@@ -1,7 +1,9 @@
 from django.views import View
 from django.shortcuts import render
-from django.contrib.auth import login
+from django.contrib import messages
 from django.shortcuts import redirect
+from django.contrib.auth import login
+from django.contrib.auth import logout
 from users.forms import UserCreateForm
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth.mixins import LoginRequiredMixin
@@ -44,6 +46,8 @@ class LoginView(View):
             user = login_form.get_user()
             login(request, user)
 
+            messages.success(request, "You have successfully logged in :)")
+
             return redirect("landing_page")
 
         else:
@@ -53,3 +57,10 @@ class LoginView(View):
 class ProfileView(LoginRequiredMixin, View):
     def get(self, request):
         return render(request, "users/profile.html", {"user": request.user})
+
+
+class LogoutView(LoginRequiredMixin, View):
+    def get(self, request):
+        logout(request)
+        messages.info(request, "You have successfully loged out :)")
+        return redirect("landing_page")
