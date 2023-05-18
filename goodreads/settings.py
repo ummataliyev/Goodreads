@@ -75,7 +75,7 @@ DATABASES = {
         "USER": "postgres",
         "PASSWORD": "postgrespw",
         "HOST": "0.0.0.0",
-        "PORT": "55000",
+        "PORT": "55001",
     }
 }
 
@@ -110,6 +110,7 @@ USE_I18N = True
 
 USE_TZ = True
 
+AUTH_USER_MODEL = "users.CustomUser"
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.2/howto/static-files/

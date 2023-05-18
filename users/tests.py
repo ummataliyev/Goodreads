@@ -1,7 +1,7 @@
 from django.urls import reverse
 from django.test import TestCase
 from django.contrib.auth import get_user
-from django.contrib.auth.models import User
+from django.contrib.auth.models import CustomUser
 
 
 class RegistrationTestCase(TestCase):
@@ -17,7 +17,7 @@ class RegistrationTestCase(TestCase):
             }
         )
 
-        user = User.objects.get(username="karaxanli")
+        user = CustomUser.objects.get(username="karaxanli")
 
         self.assertEqual(user.first_name, "Polat")
         self.assertEqual(user.last_name, "Alemdar")
@@ -34,7 +34,7 @@ class RegistrationTestCase(TestCase):
             }
         )
 
-        user_count = User.objects.count()
+        user_count = CustomUser.objects.count()
 
         self.assertEqual(user_count, 0)
         self.assertFormError(response, "form", "username", "This field is required.") # noqa
@@ -52,7 +52,7 @@ class RegistrationTestCase(TestCase):
             }
         )
 
-        user_count = User.objects.count()
+        user_count = CustomUser.objects.count()
 
         self.assertEqual(user_count, 0)
         self.assertFormError(response, "form", "email", "Enter a valid email address.") # noqa
@@ -73,14 +73,14 @@ class RegistrationTestCase(TestCase):
             }
         )
 
-        user_count = User.objects.count()
+        user_count = CustomUser.objects.count()
         self.assertEqual(user_count, 1)
         self.assertFormError(response, "form", "username", "A user with that username already exists.") # noqa
 
 
 class LoginTestCase(TestCase):
     def setUp(self):
-        self.db_user = User.objects.create(username='karaxanli', first_name="Polat") # noqa
+        self.db_user = CustomUser.objects.create(username='karaxanli', first_name="Polat") # noqa
         self.db_user.set_password("efe_karaxanli")
         self.db_user.save()
 
@@ -127,7 +127,8 @@ class ProfileTestCase(TestCase):
         self.assertEqual(response.url, reverse("users:login") + "?next=/users/profile/") # noqa
 
     def test_profile_detail(self):
-        user = User.objects.create(
+        user = CustomUser
+        .objects.create(
             username="karaxanli",
             first_name="Polat",
             last_name="Alemdar",
