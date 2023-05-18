@@ -4,6 +4,7 @@ from django.contrib import messages
 from django.shortcuts import redirect
 from django.contrib.auth import login
 from django.contrib.auth import logout
+from users.forms import UserUpdateForm
 from users.forms import UserCreateForm
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth.mixins import LoginRequiredMixin
@@ -64,3 +65,20 @@ class LogoutView(LoginRequiredMixin, View):
         logout(request)
         messages.info(request, "You have successfully loged out :)")
         return redirect("landing_page")
+
+
+class ProfileUpdateView(LoginRequiredMixin, View):
+    def get(self, request):
+        user_update_form = UserUpdateForm(instance=request.user)
+        return render(request, "users/profile_edit.html", {"form": user_update_form}) # noqa
+
+    def post(self, request):
+        user_update_form = UserUpdateForm(instance=request.user, data=request.POST) # noqa
+
+        if user_update_form.is_valid():
+            user_update_form.save()
+            messages.success(request, "You have succesfully updated your profile ;)") # noqa
+
+            return redirect("users:profile")
+
+        return render(request, "users/profile_edit.html", {"form": user_update_form}) # noqa
