@@ -3,25 +3,15 @@
 {% block title %}Book Detail Page{% endblock %}
 
 {% block content %}
-    <div class="row mb-4">
+    <div class="row">
         <div class="col-2">
             <img class="cover-pic" alt="cover image" src="{{ book.cover_picture.url }}">
         </div>
 
-        <div class="col-6 ms-3">
-            <h3>{{ book.title }}</h3>
-
-            <span class="fst-italic">
-                Authored by
-                {% for book_author in book.bookauthor_set.all %}
-                    {% if forloop.last %}
-                        {{ book_author.author.full_name }}
-                    {% else %}
-                        {{ book_author.author.full_name }},
-                    {% endif %}
-                {% endfor %}
-            </span>
-
+        <div class="col-6 ms-5">
+            <h3>
+                {{ book.title }}
+            </h3>
             <p>
                 {{ book.description }}
             </p>
@@ -29,3 +19,13 @@
     </div>
 
 {% endblock %}
+<!-- <span class="fst-italic">
+    Authored by
+    {% for book_author in book.bookauthor_set.all %}
+        {% if forloop.last %}
+            {{ book_author.author.full_name }}
+        {% else %}
+            {{ book_author.author.full_name }},
+        {% endif %}
+    {% endfor %}
+</span> -->
