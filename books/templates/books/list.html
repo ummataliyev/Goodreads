@@ -9,10 +9,10 @@
 {% for book in page_obj.object_list %}
     <div class="row mb-4">
         <div class="col-2">
-            <img class="cover-pic" src="{{ book.cover_picture.url }}">
+            <img class="cover-pic" src="{{ book.cover_picture.url }}" alt="Book Cover">
         </div>
 
-        <div class="col-6 ms-4">
+        <div class="col-6 ms-5">
             <a href="{% url 'books:detail' book.id %}">{{ book.title }}</a>
 
             <p>
@@ -20,6 +20,7 @@
             </p>
         </div>
     </div>
+
 {% endfor %}
 
 <nav>
