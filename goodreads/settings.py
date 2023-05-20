@@ -75,7 +75,7 @@ DATABASES = {
         "USER": "postgres",
         "PASSWORD": "postgrespw",
         "HOST": "0.0.0.0",
-        "PORT": "55001",
+        "PORT": "55000",
     }
 }
 
@@ -119,6 +119,9 @@ MEDIA_ROOT = "media-files"
 # https://docs.djangoproject.com/en/4.2/howto/static-files/
 
 STATIC_URL = 'static/'
+STATICFILES_DIRS = [
+    BASE_DIR / 'static'
+]
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
