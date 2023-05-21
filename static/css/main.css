@@ -3,6 +3,10 @@
     height: 200px;
 }
 
+.small-profile-pic {
+    width: 100px;
+    height: 100px;
+}
 .cover-pic {
     width: 240px;
     height: 320px;

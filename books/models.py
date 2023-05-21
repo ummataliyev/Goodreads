@@ -1,7 +1,9 @@
 from django.db import models
-from users.models import CustomUser
+from django.utils import timezone
 from django.core.validators import MinValueValidator
 from django.core.validators import MaxValueValidator
+
+from users.models import CustomUser
 
 
 class Book(models.Model):
@@ -33,12 +35,14 @@ class BookAuthor(models.Model):
 
 
 class BookReview(models.Model):
-    CustomUser = models.ForeignKey(CustomUser,  on_delete=models.CASCADE)
-    book = models.ForeignKey(Book,  on_delete=models.CASCADE)
+    user = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
+    book = models.ForeignKey(Book, on_delete=models.CASCADE)
     comment = models.TextField()
     stars_given = models.IntegerField(
         validators=[MinValueValidator(1), MaxValueValidator(5)]
-        )
+    )
+
+    created_at = models.DateField(default=timezone.now)
 
     def __str__(self):
         return f"{self.stars_given} stars for {self.book.title} by {self.user.username}" # noqa
