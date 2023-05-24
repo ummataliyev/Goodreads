@@ -1,5 +1,6 @@
 from django.views import View
 from django.urls import reverse
+from django.contrib import messages
 from django.shortcuts import render
 from django.shortcuts import redirect
 from django.core.paginator import Paginator
@@ -55,3 +56,53 @@ class AddReview(LoginRequiredMixin, View):
             return redirect(reverse("books:detail", kwargs={"id": book.id}))
 
         return render(request, "books/detail.html", {"book": book, "review_form": review_form}) # noqa
+
+
+class EditReviewView(LoginRequiredMixin, View):
+    def get(self, request, book_id, review_id):
+        book = Book.objects.get(id=book_id)
+        review = book.bookreview_set.get(id=review_id)
+        review_form = BookReviewForm(instance=review)
+
+        return render(
+            request,
+            "books/edit_review.html",
+            {"book": book, "review": review, "review_form": review_form}
+        )
+
+    def post(self, request, book_id, review_id):
+        book = Book.objects.get(id=book_id)
+        review = book.bookreview_set.get(id=review_id)
+        review_form = BookReviewForm(instance=review, data=request.POST)
+
+        if review_form.is_valid():
+            review_form.save()
+            return redirect(reverse("books:detail", kwargs={"id": book.id}))
+        return render(
+            request,
+            "books/edit_review.html",
+            {"book": book, "review": review, "review_form": review_form}
+        )
+
+
+class ConfirmDeleteReviewView(LoginRequiredMixin, View):
+    def get(self, request, book_id, review_id):
+        book = Book.objects.get(id=book_id)
+        review = book.bookreview_set.get(id=review_id)
+
+        return render(
+            request,
+            "books/confirm_delete_review.html",
+            {"book": book, "review": review}
+        )
+
+
+class DeleteReviewView(LoginRequiredMixin, View):
+    def get(self, request, book_id, review_id):
+        book = Book.objects.get(id=book_id)
+        review = book.bookreview_set.get(id=review_id)
+
+        review.delete()
+        messages.success(request, "You have successfully deleted this review")
+
+        return redirect(reverse("books:detail", kwargs={"id": book.id}))
