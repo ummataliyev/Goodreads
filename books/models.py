@@ -48,4 +48,4 @@ class BookReview(models.Model):
     created_at = models.DateField(default=timezone.now)
 
     def __str__(self):
-        return f"{self.stars_given} stars for {self.book.title} by {self.user.username}" # noqa
+        return f"id:{self.id}, {self.stars_given} stars for {self.book.title} by {self.user.username}" # noqa
