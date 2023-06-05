@@ -1,23 +1,11 @@
-import logging
-
-from django.views import View
-from django.http import JsonResponse
-
-from rest_framework.views import APIView
-from rest_framework.request import Request
 from rest_framework.response import Response
-
-
+from rest_framework.views import APIView
 
 from books.models import BookReview
 from api.serializers import BookReviewSerializer
 
 
-
-logger = logging.getLogger(__name__)
-
-
-class BookReviewDetailApiView(View):
+class BookReviewDetailApiView(APIView):
     def get(self, request, id):
         book_review = BookReview.objects.get(id=id)
 
@@ -25,6 +13,16 @@ class BookReviewDetailApiView(View):
 
         return Response(data=serializer.data)
 
+
+class BookListAPIView(APIView):
+    def get(self, request):
+        book_reviews = BookReview.objects.all()
+        serializer = BookReviewSerializer(book_reviews, many=True)
+
+        return Response(serializer.data)
+
+
+# Another for BookReviewDetailApiView
 
 # class BookReviewDetailApiView(View):
 #     def get(self, request, id):
