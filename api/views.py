@@ -1,24 +1,33 @@
-from rest_framework import generics
+from rest_framework import viewsets
 from rest_framework.permissions import IsAuthenticated
 
 from books.models import BookReview
 from api.serializers import BookReviewSerializer
 
 
-class BookReviewDetailApiView(generics.RetrieveUpdateDestroyAPIView):
-    permission_classes = [IsAuthenticated]
-    serializer_class = BookReviewSerializer
-    queryset = BookReview.objects.all()
-    lookup_field = 'id'
-
-
-class BookListAPIView(generics.ListAPIView):
+class BookReviewViewSet(viewsets.ModelViewSet):
     permission_classes = [IsAuthenticated]
     serializer_class = BookReviewSerializer
     queryset = BookReview.objects.all().order_by('-created_at')
+    lookup_field = 'id'
 
 
-# Another form for BookReviewDetailApiView
+# GENERIC from of View
+
+# class BookReviewDetailApiView(generics.RetrieveUpdateDestroyAPIView):
+#     permission_classes = [IsAuthenticated]
+#     serializer_class = BookReviewSerializer
+#     queryset = BookReview.objects.all()
+#     lookup_field = 'id'
+
+
+# class BookListAPIView(generics.ListAPIView):
+#     permission_classes = [IsAuthenticated]
+#     serializer_class = BookReviewSerializer
+#     queryset = BookReview.objects.all().order_by('-created_at')
+
+
+# Another form for BookReviewDetailApiView  using DRF
 
 # class BookReviewDetailApiView(APIView):
 #     permission_classes = [IsAuthenticated]
@@ -61,8 +70,6 @@ class BookListAPIView(generics.ListAPIView):
 #         return Response(data=serializer.errors, status=status.HTTP_400_BAD_REQUEST) # noqa
 
 
-# Another froms for BookReviewDetailApiView
-
 # class BookListAPIView(APIView):
     # permission_classes = [IsAuthenticated]
 
@@ -83,6 +90,8 @@ class BookListAPIView(generics.ListAPIView):
     #         return Response(data=serializer.data, status=status.HTTP_201_CREATED) # noqa
 
     #     return Response(data=serializer.errors, status=status.HTTP_400_BAD_REQUEST) # noqa
+
+# Handmade Veiw
 
 # class BookReviewDetailApiView(View):
 #     def get(self, request, id):
