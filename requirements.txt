@@ -1,4 +1,4 @@
-celery==5.2.7
+celery==5.2.3
 crispy-bootstrap5==0.7
 djangorestframework==3.14.0
 environs==9.5.0
