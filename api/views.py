@@ -1,37 +1,88 @@
-from rest_framework.views import APIView
-from rest_framework.response import Response
+from rest_framework import generics
 from rest_framework.permissions import IsAuthenticated
-from rest_framework.pagination import PageNumberPagination
 
 from books.models import BookReview
 from api.serializers import BookReviewSerializer
 
 
-class BookReviewDetailApiView(APIView):
+class BookReviewDetailApiView(generics.RetrieveUpdateDestroyAPIView):
     permission_classes = [IsAuthenticated]
-
-    def get(self, request, id):
-        book_review = BookReview.objects.get(id=id)
-
-        serializer = BookReviewSerializer(book_review)
-
-        return Response(data=serializer.data)
+    serializer_class = BookReviewSerializer
+    queryset = BookReview.objects.all()
+    lookup_field = 'id'
 
 
-class BookListAPIView(APIView):
+class BookListAPIView(generics.ListAPIView):
     permission_classes = [IsAuthenticated]
-
-    def get(self, request):
-        book_reviews = BookReview.objects.all().order_by('-created_at')
-
-        paginator = PageNumberPagination()
-        page_obj = paginator.paginate_queryset(book_reviews, request)
-        serializer = BookReviewSerializer(page_obj, many=True)
-
-        return paginator.get_paginated_response(serializer.data)
+    serializer_class = BookReviewSerializer
+    queryset = BookReview.objects.all().order_by('-created_at')
 
 
-# Another for BookReviewDetailApiView
+# Another form for BookReviewDetailApiView
+
+# class BookReviewDetailApiView(APIView):
+#     permission_classes = [IsAuthenticated]
+
+#     def get(self, request, id):
+#         book_review = BookReview.objects.get(id=id)
+
+#         serializer = BookReviewSerializer(book_review)
+
+#         return Response(data=serializer.data)
+
+#     def delete(self, request, id):
+#         book_review = BookReview.objects.get(id=id)
+#         book_review.delete()
+
+#         return Response(status=status.HTTP_204_NO_CONTENT)
+
+#     def put(self, request, id):
+#         book_review = BookReview.objects.get(id=id)
+#         serializer = BookReviewSerializer(instance=book_review, data=request.data) # noqa
+
+#         if serializer.is_valid():
+#             serializer.save()
+#             return Response(data=serializer.data, status=status.HTTP_200_OK)
+
+#         return Response(data=serializer.errors, status=status.HTTP_400_BAD_REQUEST) # noqa
+
+#     def patch(self, request, id):
+#         book_review = BookReview.objects.get(id=id)
+#         serializer = BookReviewSerializer(
+#             instance=book_review,
+#             data=request.data,
+#             partial=True
+#         )
+
+#         if serializer.is_valid():
+#             serializer.save()
+#             return Response(data=serializer.data, status=status.HTTP_200_OK)
+
+#         return Response(data=serializer.errors, status=status.HTTP_400_BAD_REQUEST) # noqa
+
+
+# Another froms for BookReviewDetailApiView
+
+# class BookListAPIView(APIView):
+    # permission_classes = [IsAuthenticated]
+
+    # def get(self, request):
+    #     book_reviews = BookReview.objects.all().order_by('-created_at')
+
+    #     paginator = PageNumberPagination()
+    #     page_obj = paginator.paginate_queryset(book_reviews, request)
+    #     serializer = BookReviewSerializer(page_obj, many=True)
+
+    #     return paginator.get_paginated_response(serializer.data)
+
+    # def post(self, request):
+    #     serializer = BookReviewSerializer(data=request.data)
+
+    #     if serializer.is_valid():
+    #         serializer.save()
+    #         return Response(data=serializer.data, status=status.HTTP_201_CREATED) # noqa
+
+    #     return Response(data=serializer.errors, status=status.HTTP_400_BAD_REQUEST) # noqa
 
 # class BookReviewDetailApiView(View):
 #     def get(self, request, id):
